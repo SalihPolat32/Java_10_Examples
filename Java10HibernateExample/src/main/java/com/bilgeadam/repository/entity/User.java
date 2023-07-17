@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Builder
 @Entity
+@Table (name = "tbl_user")
 public class User {
 
     @Id
@@ -24,7 +25,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
     @Column(nullable = false)
-    @Size(min = 4, max = 32, message = "Şifre 4 İle 32 Karakter Arasında Olmalıdır.")
+    @Size(min = 4, max = 32, message = "Sifre 4 İle 32 Karakter Arasında Olmalıdır.")
     private String password;
     private int age;
     private EGender gender;
