@@ -1,4 +1,4 @@
-package com.bilgeadam.repository;
+package com.bilgeadam.utility;
 
 import java.util.List;
 import java.util.Optional;

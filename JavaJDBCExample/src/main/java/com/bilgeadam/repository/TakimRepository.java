@@ -2,6 +2,7 @@ package com.bilgeadam.repository;
 
 import com.bilgeadam.repository.entity.Takim;
 import com.bilgeadam.utility.ConnectionProvider;
+import com.bilgeadam.utility.ICrud;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

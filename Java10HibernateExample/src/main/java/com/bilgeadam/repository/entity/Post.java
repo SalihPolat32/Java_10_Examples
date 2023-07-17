@@ -5,16 +5,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Futbolcu {
+public class Post {
 
     private Long id;
-    private String ad;
-    private String mevki;
-    private int formaNo;
-    private long deger;
-    private Long takim_id;
+    private String content;
+    private LocalDateTime date;
+    private Long userId;
 }
