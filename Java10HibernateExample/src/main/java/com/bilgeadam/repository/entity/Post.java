@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Lob;
 import java.time.LocalDateTime;
 
 @Data
@@ -14,7 +15,9 @@ import java.time.LocalDateTime;
 public class Post {
 
     private Long id;
+    @Lob // Big Data Verileri İçin Kullanılır
     private String content;
-    private LocalDateTime date;
+    @Builder.Default // Default Hepsine Ekler
+    private LocalDateTime date = LocalDateTime.now();
     private Long userId;
 }

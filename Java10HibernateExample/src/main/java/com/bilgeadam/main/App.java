@@ -1,21 +1,21 @@
 package com.bilgeadam.main;
 
+import com.bilgeadam.controller.UserController;
 import com.bilgeadam.repository.entity.Address;
 import com.bilgeadam.repository.entity.EAddressType;
 import com.bilgeadam.repository.entity.Name;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.repository.enums.EGender;
-import com.bilgeadam.utility.HibernateUtility;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Main {
+public class App {
 
     public static void main(String[] args) {
+
+        UserController userController = new UserController();
 
         List<String> interest1 = List.of("Müzik", "Dans");
         List<String> interest2 = List.of("Sinema", "Tiyatro");
@@ -29,11 +29,6 @@ public class Main {
         Map<EAddressType, Address> map2 = new HashMap<>();
         map1.put(EAddressType.HOME, Address.builder().city("İzmir").country("Turkey").build());
         map1.put(EAddressType.WORK, new Address("Antalya", "Turkey"));
-
-        // 3. Map
-        Map<EAddressType, Address> map3 = new HashMap<>();
-        map1.put(EAddressType.HOME, Address.builder().city("Isparta").country("Turkey").build());
-        map1.put(EAddressType.WORK, new Address("Burdur", "Turkey"));
 
         User user = User.builder()
                 .name(Name.builder().firstName("Ece").middleName("Beren").lastName("ERENOĞLU").build())
@@ -55,45 +50,7 @@ public class Main {
                 .age(35)
                 .build();
 
-        User user3 = User.builder()
-                .name(Name.builder().firstName("Salih").middleName("Polat").lastName("DÖNMEZ").build())
-                .username("spd327")
-                .password("987654")
-                .gender(EGender.MAN)
-                .interests(List.of("Yüzme", "Yürüyüş", "Oyun"))
-                .addresses(map3)
-                .age(26)
-                .build();
-
-            Session session = null;
-
-            Transaction transaction = null;
-
-        try {
-
-            session = HibernateUtility.getSessionFactory().openSession();
-
-            transaction = session.beginTransaction();
-
-            session.save(user);
-            session.save(user2);
-            session.save(user3);
-
-            System.out.println("User: " + user);
-            System.out.println(user2.getInterests().size());
-
-            transaction.commit();
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-
-            transaction.rollback();
-
-        } finally {
-
-            session.close();
-
-        }
+        System.out.println(userController.save(user));
+        System.out.println(userController.save(user2));
     }
 }
