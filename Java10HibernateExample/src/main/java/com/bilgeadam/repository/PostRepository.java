@@ -1,21 +1,20 @@
 package com.bilgeadam.repository;
 
-import com.bilgeadam.repository.entity.User;
+import com.bilgeadam.repository.entity.Post;
 import com.bilgeadam.utility.HibernateUtility;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepository implements ICrud <User> {
+public class PostRepository implements ICrud<Post> {
 
     Session session;
     Transaction transaction;
 
     @Override
-    public User save(User user) {
+    public Post save(Post post) {
 
         try {
 
@@ -25,7 +24,7 @@ public class UserRepository implements ICrud <User> {
 
             transaction = session.beginTransaction();
 
-            session.save(user);
+            session.save(post);
 
             transaction.commit();
 
@@ -33,24 +32,22 @@ public class UserRepository implements ICrud <User> {
 
         } catch (Exception e) {
 
-            e.printStackTrace();
+            System.out.println("Bir Hata Oluştu: " + e);
 
             transaction.rollback();
 
-            System.out.println("Kayıt Başarısız!!!");
+        }finally {
 
-        } finally {
-
-            System.out.println("Oturum Kapanıyor...");
+            System.out.println("Oturum Kapatılıyor...");
 
             session.close();
 
         }
-        return user;
+        return post;
     }
 
     @Override
-    public User update(User user) {
+    public Post update(Post post) {
         return null;
     }
 
@@ -60,22 +57,12 @@ public class UserRepository implements ICrud <User> {
     }
 
     @Override
-    public List<User> findAll() {
-
-        // String sql = "SELECT * FROM tbl_user";
-        String hql = "SELECT u.username FROM User AS u";
-
-        session = HibernateUtility.getSessionFactory().openSession();
-
-        TypedQuery<User> typedQuery = session.createQuery(hql, User.class);
-
-        List<User> userList = typedQuery.getResultList();
-
-        return userList;
+    public List<Post> findAll() {
+        return null;
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<Post> findById(Long id) {
         return Optional.empty();
     }
 }
