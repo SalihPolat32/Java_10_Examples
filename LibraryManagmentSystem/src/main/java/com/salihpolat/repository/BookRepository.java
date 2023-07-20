@@ -1,6 +1,6 @@
 package com.salihpolat.repository;
 
-import com.salihpolat.repository.entity.Users;
+import com.salihpolat.repository.entity.Book;
 import com.salihpolat.utility.HibernateUtility;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -8,13 +8,13 @@ import org.hibernate.Transaction;
 import java.util.List;
 import java.util.Optional;
 
-public class UserRepository implements ICrud<Users> {
+public class BookRepository implements ICrud<Book> {
 
     Session session;
     Transaction transaction;
 
     @Override
-    public Users save(Users users) {
+    public Book save(Book book) {
 
         try {
 
@@ -24,7 +24,7 @@ public class UserRepository implements ICrud<Users> {
 
             System.out.println("Oturum Açıldı");
 
-            session.save(users);
+            session.save(book);
 
             transaction.commit();
 
@@ -43,11 +43,11 @@ public class UserRepository implements ICrud<Users> {
             session.close();
 
         }
-        return users;
+        return book;
     }
 
     @Override
-    public Users update(Users users) {
+    public Book update(Book book) {
         return null;
     }
 
@@ -57,12 +57,12 @@ public class UserRepository implements ICrud<Users> {
     }
 
     @Override
-    public List<Users> findAll() {
+    public List<Book> findAll() {
         return null;
     }
 
     @Override
-    public Optional<Users> findById(Long id) {
+    public Optional<Book> findById(Long id) {
         return Optional.empty();
     }
 }

@@ -1,8 +1,8 @@
-package com.salihpolat;
+package com.salihpolat.main;
 
 import com.salihpolat.repository.AddressRepository;
 import com.salihpolat.repository.UserInformationRepository;
-import com.salihpolat.repository.UserRepository;
+import com.salihpolat.repository.UsersRepository;
 import com.salihpolat.repository.entity.Address;
 import com.salihpolat.repository.entity.UserInformation;
 import com.salihpolat.repository.entity.Users;
@@ -22,7 +22,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        UserRepository userRepository = new UserRepository();
+        UsersRepository userRepository = new UsersRepository();
 
         UserInformationRepository userInformationRepository = new UserInformationRepository();
 
@@ -34,14 +34,14 @@ public class Main {
         addressRepository.save(address);
 
         // User Information Kayıt İşlemi
-        UserInformation userInformation = UserInformation.builder().firstName("Mustafa").lastName("ÖZTÜRK").address(address).build();
-
-        userInformationRepository.save(userInformation);
+//        UserInformation userInformation = UserInformation.builder().firstName("Mustafa").lastName("ÖZTÜRK").address(address).build();
+//
+//        userInformationRepository.save(userInformation);
 
         // User Kayıt İşlemi
-        Users user = Users.builder().username("musty").password("123456").userInformation(userInformation).build();
-
-        userRepository.save(user);
+//        Users user = Users.builder().username("musty").password("123456").userInformation(userInformation).build();
+//
+//        userRepository.save(user);
 
         Users user2 = Users.builder().username("mustafa").password("456789").build();
 

@@ -1,11 +1,9 @@
 package com.salihpolat.repository.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +19,7 @@ public class UserInformation {
     private String lastName;
     private String phoneNumber;
     private String about;
-    @OneToOne (cascade = CascadeType.ALL)
-    @JoinColumn (unique = true)
-    private Address address;
+    @ManyToMany (cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<Address> address;
 }
