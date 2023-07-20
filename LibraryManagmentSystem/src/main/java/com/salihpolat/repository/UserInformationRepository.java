@@ -5,6 +5,7 @@ import com.salihpolat.utility.HibernateUtility;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +59,12 @@ public class UserInformationRepository implements ICrud<UserInformation> {
 
     @Override
     public List<UserInformation> findAll() {
-        return null;
+
+        String hql = "SELECT ui FROM UserInformation AS ui";
+        session = HibernateUtility.getSESSION_FACTORY().openSession();
+        TypedQuery<UserInformation> typedQuery = session.createQuery(hql, UserInformation.class);
+        List<UserInformation> userInformations = typedQuery.getResultList();
+        return userInformations;
     }
 
     @Override

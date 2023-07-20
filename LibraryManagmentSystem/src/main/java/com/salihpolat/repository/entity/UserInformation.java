@@ -5,7 +5,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,6 +22,5 @@ public class UserInformation {
     private String phoneNumber;
     private String about;
     @ManyToMany (cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Set<Address> address;
+    private Set<Address> addresses;
 }

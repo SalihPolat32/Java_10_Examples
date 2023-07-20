@@ -10,6 +10,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -20,8 +21,9 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String country;
+    @ToString.Include
     private String city;
-    @ManyToMany (cascade = CascadeType.ALL)
+    @ManyToMany (cascade = CascadeType.ALL, mappedBy = "addresses")
     @Builder.Default
     @ToString.Exclude
     private Set<UserInformation> userInformations = new HashSet<>();

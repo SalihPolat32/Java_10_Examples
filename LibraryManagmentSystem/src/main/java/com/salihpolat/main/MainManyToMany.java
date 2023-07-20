@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class MainManyToMany {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         UserInformationController userInformationController = new UserInformationController();
 
@@ -20,16 +20,20 @@ public class MainManyToMany {
         Address address2 = Address.builder().city("Bolu").build();
 
         UserInformation userInformation1 = UserInformation.builder().firstName("Mustafa")
-                .address(Set.of(address1, address2)).build();
+                .addresses(Set.of(address1, address2)).build();
         UserInformation userInformation2 = UserInformation.builder().firstName("Kemal")
-                .address(Set.of(address1, address2)).build();
+                .addresses(Set.of(address1, address2)).build();
+
+//        address1.getUserInformations().add(userInformation1);
+//        address1.getUserInformations().add(userInformation2);
+//        address2.getUserInformations().add(userInformation1);
+//        address2.getUserInformations().add(userInformation2);
 
         userInformationController.save(userInformation1);
         userInformationController.save(userInformation2);
 
-        address1.getUserInformations().add(userInformation1);
-        address1.getUserInformations().add(userInformation2);
-        address2.getUserInformations().add(userInformation1);
-        address2.getUserInformations().add(userInformation2);
+        Thread.sleep(2000);
+
+        userInformationController.findAll().forEach(System.out::println);
     }
 }
