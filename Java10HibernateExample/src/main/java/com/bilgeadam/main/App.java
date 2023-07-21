@@ -25,8 +25,8 @@ public class App {
 
         // 2. Map
         Map<EAddressType, Address> map2 = new HashMap<>();
-        map1.put(EAddressType.HOME, Address.builder().city("İzmir").country("Turkey").build());
-        map1.put(EAddressType.WORK, new Address("Antalya", "Turkey"));
+        map2.put(EAddressType.HOME, Address.builder().city("İzmir").country("Turkey").build());
+        map2.put(EAddressType.WORK, new Address("Antalya", "Turkey"));
 
         User user = User.builder()
                 .name(Name.builder().firstName("Ece").middleName("Beren").lastName("ERENOĞLU").build())

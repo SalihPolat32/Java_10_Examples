@@ -38,6 +38,22 @@ public class UserService implements ICrud<User> {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            System.out.println("Böyle Bir Kullanıcı Bulunamadı!!!");
+        }
+        return user;
+    }
+
+    public Optional<User> findByUsername(String username) {
+
+        Optional<User> user = userRepository.findByUsername(username);
+
+        if (user.isEmpty()) {
+            System.out.println("Böyle Bir Kullanıcı Bulunamadı!!!");
+        }
+        return user;
     }
 }

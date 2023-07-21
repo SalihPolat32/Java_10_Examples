@@ -38,6 +38,10 @@ public class UserController implements ICrud<User> {
 
     @Override
     public Optional<User> findById(Long id) {
-        return Optional.empty();
+        return userService.findById(id);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userService.findByUsername(username);
     }
 }

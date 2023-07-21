@@ -54,4 +54,5 @@ public class User {
     @ElementCollection
     @MapKeyEnumerated(EnumType.STRING)
     Map<EAddressType, Address> addresses;
+    int postCount;
 }
