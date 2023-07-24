@@ -1,7 +1,6 @@
 package com.bilgeadam.service;
 
 import com.bilgeadam.repository.ICrud;
-import com.bilgeadam.repository.UserRepository;
 import com.bilgeadam.repository.entity.User;
 
 import java.util.List;

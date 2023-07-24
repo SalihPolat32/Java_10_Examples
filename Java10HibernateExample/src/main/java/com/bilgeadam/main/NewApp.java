@@ -2,11 +2,11 @@ package com.bilgeadam.main;
 
 import com.bilgeadam.controller.PostController;
 import com.bilgeadam.controller.UserController;
+import com.bilgeadam.repository.PostRepository;
 import com.bilgeadam.repository.UserRepository;
 import com.bilgeadam.repository.entity.*;
 import com.bilgeadam.repository.enums.EGender;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +20,8 @@ public class NewApp {
         PostController postController = new PostController();
 
         UserRepository userRepository = new UserRepository();
+
+        PostRepository postRepository = new PostRepository();
 
 //        createUsers(userController);
 //
@@ -38,23 +40,39 @@ public class NewApp {
 //        userRepository.findAllFirstNameStartWith("M").forEach(System.out::println);
 //
 //        userRepository.findAllFirstNameStartWithAndGtPostCount("M", 9).forEach(System.out::println);
+//
+//        System.out.println("Post Count Toplamı: " + userRepository.sumPostCount());
+//
+//        System.out.println("Post Count Ortalaması: " + userRepository.avgPostCount());
+//
+//        List<Object[]> array = userRepository.groupByPostCount();
+//
+//        for (Object[] objectArray : array) {
+//            for (Object o : objectArray) {
+//                System.out.print(o + " - ");
+//            }
+//            System.out.println();
+//        }
+//
+//        for (Object[] objectArray : array) {
+//            System.out.println(Arrays.toString(objectArray));
+//        }
+//
+//        System.out.println(userRepository.mostPostingUser());
+//
+//        userRepository.mostPostingUser2();
+//
+//        List<Object[]> list = userRepository.getUsernameGenderPostCount();
+//        for (Object[] array : list) {
+//            System.out.println(Arrays.toString(array));
+//        }
+//
+//        List<Object[]> list2 = userRepository.getUserGendersWithTotalPost();
+//        for (Object[] array : list2) {
+//            System.out.println(Arrays.toString(array));
+//        }
 
-        System.out.println("Post Count Toplamı: " + userRepository.sumPostCount());
-
-        System.out.println("Post Count Ortalaması: " + userRepository.avgPostCount());
-
-        List<Object[]> array = userRepository.groupByPostCount();
-
-        for (Object[] objectArray : array) {
-            for (Object o : objectArray) {
-                System.out.print(o + " - ");
-            }
-            System.out.println();
-        }
-
-        for (Object[] objectArray : array) {
-            System.out.println(Arrays.toString(objectArray));
-        }
+        System.out.println(postRepository.findByUserWithPostId(1L));
     }
 
     public static void createUsers(UserController userController) {

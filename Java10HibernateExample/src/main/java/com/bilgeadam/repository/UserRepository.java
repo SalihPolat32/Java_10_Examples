@@ -1,5 +1,6 @@
 package com.bilgeadam.repository;
 
+import com.bilgeadam.repository.ICrud;
 import com.bilgeadam.repository.entity.Name;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.utility.HibernateUtility;
@@ -8,6 +9,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 /*
@@ -27,7 +29,7 @@ import java.util.Optional;
  * Her cinsiyetteki kullanıcıları ve toplam attıkları post sayısını dönen sorguyu yazalım
  * -- optional hql sorgusu post repostiroy'de --> 1 nuramalı postu atan kullanıcıyı getiren sorgu ==> JOIN
  */
-public class UserRepository implements ICrud <User> {
+public class UserRepository implements ICrud<User> {
 
     Session session;
     Transaction transaction;
@@ -261,5 +263,86 @@ public class UserRepository implements ICrud <User> {
         TypedQuery<Object[]> typedQuery = session.createQuery(hql, Object[].class);
 
         return typedQuery.getResultList();
+    }
+
+    public Optional<User> mostPostingUser() {
+
+        String hql = "SELECT u FROM User AS u WHERE postCount = (SELECT MAX(postCount) FROM User)";
+
+        session = HibernateUtility.getSessionFactory().openSession();
+
+        TypedQuery<User> typedQuery = session.createQuery(hql, User.class);
+
+        User user = null;
+
+        List<User> list = typedQuery.getResultList();
+
+        if ((!list.isEmpty())) {
+            user = list.get(0);
+        }
+
+        return Optional.ofNullable(user);
+    }
+
+    public Optional<User> mostPostingUser2() {
+
+        String hql = "SELECT u FROM User AS u ORDER BY postCount DESC";
+
+        session = HibernateUtility.getSessionFactory().openSession();
+
+        TypedQuery<User> typedQuery = session.createQuery(hql, User.class);
+
+        typedQuery.setMaxResults(2);
+
+        User user = null;
+
+        try {
+
+            user = typedQuery.getResultList().get(0);
+
+        } catch (Exception e) {
+
+            System.out.println(e.toString());
+        }
+
+        typedQuery.getResultList().forEach(System.out::println);
+
+        return Optional.ofNullable(user);
+    }
+
+    public List<Object[]> getUsernameGenderPostCount() {
+
+        String hql = "SELECT u.username, u.gender, u.postCount FROM User AS u";
+
+        session = HibernateUtility.getSessionFactory().openSession();
+
+        TypedQuery<Object[]> typedQuery = session.createQuery(hql, Object[].class);
+
+        List<Object[]> list = new ArrayList<>();
+
+        list = typedQuery.getResultList();
+
+        if (list.isEmpty()) {
+            System.out.println("Herhangi Bir Sonuç Bulunamadı!!!");
+        }
+
+        return list;
+    }
+
+    public List<Object[]> getUserGendersWithTotalPost() {
+
+        String hql = "SELECT gender, SUM(postCount) FROM User GROUP BY gender";
+
+        session = HibernateUtility.getSessionFactory().openSession();
+
+        TypedQuery<Object[]> typedQuery = session.createQuery(hql, Object[].class);
+
+        List<Object[]> list = typedQuery.getResultList();
+
+        if (list.isEmpty()) {
+            System.out.println("Herhangi Bir Sonuç Bulunamadı!!!");
+        }
+
+        return list;
     }
 }
