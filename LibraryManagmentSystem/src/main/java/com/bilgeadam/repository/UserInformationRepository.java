@@ -61,9 +61,15 @@ public class UserInformationRepository implements ICrud<UserInformation> {
     public List<UserInformation> findAll() {
 
         String hql = "SELECT ui FROM UserInformation AS ui";
+
         session = HibernateUtility.getSESSION_FACTORY().openSession();
+
         TypedQuery<UserInformation> typedQuery = session.createQuery(hql, UserInformation.class);
+
         List<UserInformation> userInformations = typedQuery.getResultList();
+
+        session.close();
+
         return userInformations;
     }
 

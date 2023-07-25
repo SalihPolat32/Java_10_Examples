@@ -14,7 +14,8 @@ import javax.persistence.*;
 @NamedQueries(
         {
                 @NamedQuery(name = "findByBookType", query = "SELECT b FROM Book AS b WHERE b.bookType =: myType"),
-                @NamedQuery(name = "findById", query = "SELECT b FROM Book AS b WHERE b.id =: myId")
+                @NamedQuery(name = "findById", query = "SELECT b FROM Book AS b WHERE b.id =: myId"),
+                @NamedQuery(name = "countBookType", query = "SELECT b.bookType, COUNT(*) FROM Book AS b GROUP BY bookType")
         }
         )
 public class Book {
@@ -31,6 +32,6 @@ public class Book {
     private int pageCount;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "my_author_id", referencedColumnName = "id", nullable = false)
-    @ToString.Exclude
+//    @ToString.Exclude
     private Author author;
 }
