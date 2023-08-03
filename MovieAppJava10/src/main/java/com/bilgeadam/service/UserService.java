@@ -12,7 +12,6 @@ public class UserService {
 
     private final IUserRepository userRepository;
 
-
     public User createUser(User user) {
 
         return userRepository.save(user);
