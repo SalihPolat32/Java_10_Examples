@@ -91,4 +91,34 @@ public class UserController {
 
         return ResponseEntity.ok(userService.findAllByNameContainingIgnoreCase(value));
     }
+
+    @GetMapping("/containByEmail")
+    public ResponseEntity<List<User>> findAllByEmailContainingIgnoreCase(String value) {
+
+        return ResponseEntity.ok(userService.findAllByEmailContainingIgnoreCase(value));
+    }
+
+    @GetMapping("/emailEndingWith")
+    public ResponseEntity<List<User>> findAllByEmailEndingWith(String value) {
+
+        return ResponseEntity.ok(userService.findAllByEmailEndingWith(value));
+    }
+
+    @GetMapping("/ltPassword")
+    public ResponseEntity<List<User>> passwordLongerThan(int value) {
+
+        return ResponseEntity.ok(userService.passwordLongerThan(value));
+    }
+
+    @GetMapping("/ltPassword2")
+    public ResponseEntity<List<User>> passwordLongerThan2(int value) {
+
+        return ResponseEntity.ok(userService.passwordLongerThan2(value));
+    }
+
+    @GetMapping("/ltPassword3")
+    public ResponseEntity<List<User>> passwordLongerThan3(int value) {
+
+        return ResponseEntity.ok(userService.passwordLongerThan3(value));
+    }
 }

@@ -74,6 +74,7 @@ public class UserService {
     }
 
     public List<UserResponseDto> findAllByNameContainingIgnoreCase(String value) {
+
         List<User> userList = userRepository.findAllByNameContainingIgnoreCase(value);
 
         if (userList.isEmpty()) {
@@ -84,5 +85,31 @@ public class UserService {
         // List<UserResponseDto> list = userList.stream().map(x -> IUserMapper.INSTANCE.toUserResponseDto(x)).collect(Collectors.toList());
 
         return IUserMapper.INSTANCE.toUserResponseDtoList(userList);
+    }
+
+    public List<User> findAllByEmailContainingIgnoreCase(String value) {
+
+        return userRepository.findAllByEmailContainingIgnoreCase(value);
+    }
+
+    public List<User> findAllByEmailEndingWith(String value) {
+
+        return userRepository.findAllByEmailEndingWith(value);
+    }
+
+
+    public List<User> passwordLongerThan(int value) {
+
+        return userRepository.passwordLongerThan(value);
+    }
+
+    public List<User> passwordLongerThan2(int value) {
+
+        return userRepository.passwordLongerThan2(value);
+    }
+
+    public List<User> passwordLongerThan3(int value) {
+
+        return userRepository.passwordLongerThan3(value);
     }
 }
