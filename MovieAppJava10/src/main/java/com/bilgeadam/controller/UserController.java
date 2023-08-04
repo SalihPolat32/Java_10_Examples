@@ -1,14 +1,19 @@
 package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.RegisterRequestDto;
+import com.bilgeadam.dto.response.UserResponseDto;
 import com.bilgeadam.repository.entity.User;
 import com.bilgeadam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.bilgeadam.constant.RestApiUrl.*;
+
 @RestController
-@RequestMapping("/user")
+@RequestMapping(USER)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -41,13 +46,49 @@ public class UserController {
         }
     }
 
-    @GetMapping("/register")
+    @GetMapping(REGISTER)
     public ResponseEntity<User> register(RegisterRequestDto dto) {
+
         return ResponseEntity.ok(userService.register(dto));
     }
 
-    @PostMapping("/register")
+    @PostMapping(REGISTER)
     public ResponseEntity<User> register2(@RequestBody RegisterRequestDto dto) {
+
         return ResponseEntity.ok(userService.register(dto));
+    }
+
+    @GetMapping(FINDBYID + "/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @GetMapping(FINDBYID)
+    public ResponseEntity<User> findById2(@RequestParam(required = false, defaultValue = "1") Long id) {
+
+        if (id == null) {
+            throw new RuntimeException("id null");
+        }
+
+        return ResponseEntity.ok(userService.findById(id));
+    }
+
+    @PostMapping(LOGIN)
+    public ResponseEntity<UserResponseDto> login(@RequestBody RegisterRequestDto dto) {
+
+        return ResponseEntity.ok(userService.login(dto));
+    }
+
+    @GetMapping("/orderByName")
+    public ResponseEntity<List<User>> findAllByOrderByName() {
+
+        return ResponseEntity.ok(userService.findAllByOrderByName());
+    }
+
+    @GetMapping("/containByName")
+    public ResponseEntity<List<UserResponseDto>> findAllByNameContainingIgnoreCase(String value) {
+
+        return ResponseEntity.ok(userService.findAllByNameContainingIgnoreCase(value));
     }
 }
