@@ -1,5 +1,6 @@
 package com.salihpolat.service;
 
+import com.salihpolat.dto.request.UserRequestDto;
 import com.salihpolat.dto.response.UserDto;
 import com.salihpolat.exception.BadRequestException;
 import com.salihpolat.exception.InternalServerErrorException;
@@ -28,42 +29,73 @@ public class UserService {
 
         } catch (DataAccessException e) {
 
-            throw new InternalServerErrorException("An error occurred while fetching categories");
+            throw new InternalServerErrorException("An Error Occurred While Fetching Categories");
 
         }
     }
 
     public UserDto findById(Long id) {
+
         if (id <= 0) {
-            throw new BadRequestException("Invalid user ID: " + id);
+            throw new BadRequestException("Invalid User ID: " + id);
         }
 
         Optional<User> userOptional = userRepository.findById(id);
+
         if (userOptional.isEmpty()) {
-            throw new ResourceNotFoundException("User not found with ID: " + id);
+            throw new ResourceNotFoundException("User Not Found With ID: " + id);
         }
+
         UserDto userDto = IUserMapper.INSTANCE.userToUserDto(userRepository.findById(id).get());
 
         return userDto;
     }
 
-    public UserDto save(User user) {
+    public User getById(Long id) {
+
+        if (id <= 0) {
+            throw new BadRequestException("Invalid User ID: " + id);
+        }
+
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (userOptional.isEmpty()) {
+            throw new ResourceNotFoundException("User not found with ID: " + id);
+        }
+
+        return userOptional.get();
+    }
+
+    public UserDto save(UserRequestDto userRequestDto) {
 
         try {
 
-            if (user == null) {
-                throw new BadRequestException("User cannot be null");
+            if (userRequestDto == null) {
+                throw new BadRequestException("User Cannot Be null");
             }
 
-            UserDto userDto = IUserMapper.INSTANCE.userToUserDto(userRepository.save(user));
+            User savedUser = userRepository.save(IUserMapper.INSTANCE.userRequestDtoToUser(userRequestDto));
 
-            return userDto;
+            UserDto savedUserToUserDto = IUserMapper.INSTANCE.userToUserDto(savedUser);
+
+            return savedUserToUserDto;
 
         } catch (Exception e) {
 
-            throw new InternalServerErrorException("An error occurred while saving user");
+            throw new InternalServerErrorException("An Error Occurred While Saving User");
 
         }
+    }
+
+    public UserDto update(UserRequestDto userRequestDto, Long id) {
+
+        userRequestDto.setId(id);
+
+        User user = IUserMapper.INSTANCE.userRequestDtoToUser(userRequestDto);
+
+        User updatedUser = userRepository.save(user);
+
+        return IUserMapper.INSTANCE.userToUserDto(updatedUser);
     }
 
     public void deleteById(Long id) {
@@ -73,14 +105,14 @@ public class UserService {
         try {
 
             if (user.isEmpty()) {
-                throw new ResourceNotFoundException("User not found with ID: " + id);
+                throw new ResourceNotFoundException("User Not Found With ID: " + id);
             }
 
             userRepository.deleteById(id);
 
         } catch (Exception e) {
 
-            throw new InternalServerErrorException("An error occurred while deleting user");
+            throw new InternalServerErrorException("An Error Occurred While Deleting User");
 
         }
     }

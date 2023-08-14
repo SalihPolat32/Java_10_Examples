@@ -10,9 +10,15 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ICategoryMapper {
+
     ICategoryMapper INSTANCE = Mappers.getMapper(ICategoryMapper.class);
 
     CategoryDto categoryToCategoryDto(Category category);
 
     List<CategoryDto> categoryListToCategoryDtoList(List<Category> category);
+
+    Category categoryDtoToCategory(CategoryDto categoryDto);
+/*
+    List<Category> categoryDtoListToCategoryList(List<CategoryDto> categoryDtoList);
+*/
 }

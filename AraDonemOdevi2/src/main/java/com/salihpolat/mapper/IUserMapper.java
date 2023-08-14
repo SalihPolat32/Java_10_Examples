@@ -1,6 +1,6 @@
 package com.salihpolat.mapper;
 
-import com.salihpolat.dto.request.RegisterRequestDto;
+import com.salihpolat.dto.request.UserRequestDto;
 import com.salihpolat.dto.response.UserDto;
 import com.salihpolat.model.User;
 import org.mapstruct.Mapper;
@@ -18,5 +18,5 @@ public interface IUserMapper {
 
     List<UserDto> userListToUserDtoList(List<User> userList);
 
-    User registerRequestDtoToUser(RegisterRequestDto dto);
+    User userRequestDtoToUser(UserRequestDto userRequestDto);
 }

@@ -1,7 +1,7 @@
 package com.salihpolat.controller;
 
+import com.salihpolat.dto.request.UserRequestDto;
 import com.salihpolat.dto.response.UserDto;
-import com.salihpolat.model.User;
 import com.salihpolat.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,11 +19,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping(USER)
-    public ResponseEntity<UserDto> save(@RequestBody User user) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
-    }
-
     @GetMapping(USER)
     public ResponseEntity<List<UserDto>> findAll() {
         return ResponseEntity.ok(userService.findAll());
@@ -34,10 +29,14 @@ public class UserController {
         return ResponseEntity.ok(userService.findById(id));
     }
 
+    @PostMapping(USER)
+    public ResponseEntity<UserDto> save(@RequestBody UserRequestDto userRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(userRequestDto));
+    }
+
     @PutMapping(USER + "/{userId}")
-    public ResponseEntity<UserDto> update(@RequestBody User user, @PathVariable(name = "userId") Long id) {
-        user.setId(id);
-        return ResponseEntity.ok(userService.save(user));
+    public ResponseEntity<UserDto> update(@RequestBody UserRequestDto userRequestDto, @PathVariable(name = "userId") Long id) {
+        return ResponseEntity.ok(userService.update(userRequestDto, id));
     }
 
     @DeleteMapping(USER + "/{userId}")

@@ -1,7 +1,7 @@
 package com.salihpolat.controller;
 
+import com.salihpolat.dto.request.PostRequestDto;
 import com.salihpolat.dto.response.PostDto;
-import com.salihpolat.model.Post;
 import com.salihpolat.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,11 +19,6 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping(POST)
-    public ResponseEntity<PostDto> save(@RequestBody Post post) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(postService.save(post));
-    }
-
     @GetMapping(POST)
     public ResponseEntity<List<PostDto>> findAll() {
         return ResponseEntity.ok(postService.findAll());
@@ -34,10 +29,16 @@ public class PostController {
         return ResponseEntity.ok(postService.findById(id));
     }
 
+    @PostMapping(POST)
+    public ResponseEntity<PostDto> save(@RequestBody PostRequestDto postRequestDto,
+                                        @RequestParam Long userId,
+                                        @RequestParam(required = false) Long categoryId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(postService.save(postRequestDto, userId, categoryId));
+    }
+
     @PutMapping(POST + "/{postId}")
-    public ResponseEntity<PostDto> update(@RequestBody Post post, @PathVariable(name = "postId") Long id) {
-        post.setId(id);
-        return ResponseEntity.ok(postService.save(post));
+    public ResponseEntity<PostDto> update(@RequestBody PostDto postDto, @PathVariable(name = "postId") Long id) {
+        return ResponseEntity.ok(postService.update(postDto, id, postDto.getUserId(), postDto.getCategoryId()));
     }
 
     @DeleteMapping(POST + "/{postId}")
@@ -46,14 +47,33 @@ public class PostController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping(POST + "/user/{userId}")
+    public ResponseEntity<List<PostDto>> findPostsByUserId(@PathVariable(name = "userId") Long id) {
+        return ResponseEntity.ok(postService.findPostsByUserId(id));
+    }
+
     @GetMapping(POST + "/category/{categoryId}")
     public ResponseEntity<List<PostDto>> findPostsByCategoryId(@PathVariable(name = "categoryId") Long id) {
 
         return ResponseEntity.ok(postService.findPostsByCategoryId(id));
     }
 
-    @GetMapping(POST + "/user/{userId}")
-    public ResponseEntity<List<PostDto>> findPostsByUserId(@PathVariable(name = "userId") Long id) {
-        return ResponseEntity.ok(postService.findPostsByUserId(id));
+    @GetMapping("/api" + POST)
+    public ResponseEntity<List<PostDto>> findPostsBySearch(
+            @RequestParam(name = "search", required = false) String search,
+            @RequestParam(name = "category", required = false) String category) {
+
+        List<PostDto> result;
+
+        if (search != null) {
+            result = postService.findPostsByContentContains(search);
+        } else if (category != null) {
+            result = postService.findPostsByCategory(category);
+        } else {
+
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(result);
     }
 }

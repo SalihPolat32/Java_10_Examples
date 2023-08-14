@@ -14,4 +14,9 @@ public interface IPostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsByUserId(Long id);
 
     List<Post> findPostsByCategoryId(Long id);
+
+    List<Post> getPostsByCategoryCategoryName(String category);
+
+    List<Post> getPostsByContentContainingIgnoreCase(String keyword);
+
 }

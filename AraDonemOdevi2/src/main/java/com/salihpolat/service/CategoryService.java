@@ -19,51 +19,83 @@ public class CategoryService {
 
     private final ICategoryRepository categoryRepository;
 
-    public List<Category> findAll() {
+    public List<CategoryDto> findAll() {
 
         try {
 
-            return categoryRepository.findAll();
+            List<CategoryDto> categoryDtoList = ICategoryMapper.INSTANCE.categoryListToCategoryDtoList(categoryRepository.findAll());
+
+            return categoryDtoList;
 
         } catch (Exception e) {
 
-            throw new InternalServerErrorException("An error occurred while fetching categories");
+            throw new InternalServerErrorException("An Error Occurred While Fetching Categories");
 
         }
     }
 
-    public Category findById(Long id) {
+    public CategoryDto findById(Long id) {
 
         if (id <= 0) {
-            throw new BadRequestException("Invalid category ID: " + id);
+            throw new BadRequestException("Invalid Category ID: " + id);
         }
 
         Optional<Category> categoryOptional = categoryRepository.findById(id);
 
         if (categoryOptional.isEmpty()) {
-            throw new ResourceNotFoundException("Category not found with ID: " + id);
+            throw new ResourceNotFoundException("Category Not Found With ID: " + id);
+        }
+
+        CategoryDto categoryDto = ICategoryMapper.INSTANCE.categoryToCategoryDto(categoryRepository.findById(id).get());
+
+        return categoryDto;
+    }
+
+    public Category getById(Long id) {
+
+        if (id <= 0) {
+            throw new BadRequestException("Invalid Category ID: " + id);
+        }
+
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+
+        if (categoryOptional.isEmpty()) {
+            throw new ResourceNotFoundException("Category Not Found With ID: " + id);
         }
 
         return categoryOptional.get();
     }
 
-    public CategoryDto save(Category category) {
+    public CategoryDto save(CategoryDto categoryDto) {
 
         try {
 
-            if (category == null) {
-                throw new BadRequestException("Category cannot be null");
+            if (categoryDto == null) {
+                throw new BadRequestException("Category Cannot Be null");
             }
 
-            CategoryDto categoryDto = ICategoryMapper.INSTANCE.categoryToCategoryDto(categoryRepository.save(category));
+            Category savedCategory = categoryRepository.save(ICategoryMapper.INSTANCE.categoryDtoToCategory(categoryDto));
 
-            return categoryDto;
+            CategoryDto savedCategoryToCategoryDto = ICategoryMapper.INSTANCE.categoryToCategoryDto(savedCategory);
+
+            return savedCategoryToCategoryDto;
 
         } catch (Exception e) {
 
-            throw new InternalServerErrorException("An error occurred while saving category");
+            throw new InternalServerErrorException("An Error Occurred While Saving Category");
 
         }
+    }
+
+    public CategoryDto update(CategoryDto categoryDto, Long id) {
+
+        categoryDto.setId(id);
+
+        Category category = ICategoryMapper.INSTANCE.categoryDtoToCategory(categoryDto);
+
+        Category updatedCategory = categoryRepository.save(category);
+
+        return ICategoryMapper.INSTANCE.categoryToCategoryDto(updatedCategory);
     }
 
     public void deleteById(Long id) {
@@ -73,15 +105,26 @@ public class CategoryService {
         try {
 
             if (category.isEmpty()) {
-                throw new ResourceNotFoundException("Category not found with ID: " + id);
+                throw new ResourceNotFoundException("Category Not Found With ID: " + id);
             }
 
             categoryRepository.deleteById(id);
 
         } catch (Exception e) {
 
-            throw new InternalServerErrorException("An error occurred while deleting category");
+            throw new InternalServerErrorException("An Error Occurred While Deleting Category");
 
         }
+    }
+
+    public CategoryDto findCategoryByCategoryNameIgnoreCase(String name) {
+
+        Category category = categoryRepository.findCategoryByCategoryNameIgnoreCase(name);
+
+        if (category == null) {
+            throw new ResourceNotFoundException("Category Not Found With Name : " + name);
+        }
+
+        return ICategoryMapper.INSTANCE.categoryToCategoryDto(category);
     }
 }
