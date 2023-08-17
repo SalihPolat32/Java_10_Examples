@@ -1,10 +1,10 @@
 server:
-    port: 7070
+  port: 7070
 
 spring:
   datasource:
     username: postgres
-    password: 123456789
+    password: 12345
     url: jdbc:postgresql://localhost:5432/Java10SocialAuth
     driver-class-name: org.postgresql.Driver
   jpa:

@@ -7,7 +7,7 @@ ext {
             openapi   : "1.6.14",
     ]
 
-    // ctrl + alt + l --> formatlar
+    //ctrl + alt + l --> formatlar
     libs = [
             springBootWeb     : "org.springframework.boot:spring-boot-starter-web:$versions.springBoot",
             springBootJpa     : "org.springframework.boot:spring-boot-starter-data-jpa:$versions.springBoot",

@@ -46,7 +46,7 @@ allprojects {
 }
 
 configurations {
-    compileOnly{
+    compileOnly {
         extendsFrom annotationProcessor
     }
 }
