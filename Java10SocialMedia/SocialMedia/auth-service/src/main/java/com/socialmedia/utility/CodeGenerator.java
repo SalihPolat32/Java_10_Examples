@@ -12,12 +12,19 @@ public class CodeGenerator {
 
     public static String generateCode() {
 
-        String code = "";
+        String uuid = UUID.randomUUID().toString();
 
-        UUID uuid = UUID.randomUUID();
+        String[] data = uuid.split("-");
 
-        code = uuid.toString().substring(0, 4);
-        
-        return code;
+        String newCode = "";
+
+        int i = 0;
+
+        while (i < data.length) {
+            newCode += data[i].charAt(0);
+            i++;
+        }
+
+        return newCode;
     }
 }

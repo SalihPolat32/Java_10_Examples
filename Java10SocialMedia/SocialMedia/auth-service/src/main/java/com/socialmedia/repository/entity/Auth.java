@@ -34,5 +34,6 @@ public class Auth extends BaseEntity {
     private ERole role = ERole.USER;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private EStatus status = EStatus.PENDING;
 }
