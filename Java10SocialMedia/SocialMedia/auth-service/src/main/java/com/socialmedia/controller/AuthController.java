@@ -1,5 +1,6 @@
 package com.socialmedia.controller;
 
+import com.socialmedia.dto.request.ActivateRequestDto;
 import com.socialmedia.dto.request.LoginRequestDto;
 import com.socialmedia.dto.request.RegisterRequestDto;
 import com.socialmedia.dto.response.RegisterResponseDto;
@@ -26,5 +27,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<Boolean> login(@RequestBody LoginRequestDto dto) {
         return ResponseEntity.ok(authService.login(dto));
+    }
+
+    @PostMapping("/activatesstatus")
+    public ResponseEntity<Boolean> login(@RequestBody ActivateRequestDto dto) {
+        return ResponseEntity.ok(authService.activeStatus(dto));
     }
 }
