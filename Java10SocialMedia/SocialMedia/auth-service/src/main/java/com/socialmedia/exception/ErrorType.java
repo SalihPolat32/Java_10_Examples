@@ -14,6 +14,8 @@ public enum ErrorType {
     ALREADY_ACTIVE(4200, "Hesabınız Zaten Aktif!!!", HttpStatus.BAD_REQUEST);
 
     HttpStatus httpStatus;
+
     private int code;
+
     private String message;
 }

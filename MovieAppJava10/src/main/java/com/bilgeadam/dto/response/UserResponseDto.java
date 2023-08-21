@@ -22,5 +22,6 @@ public class UserResponseDto {
 
     private String phone;
 
+    @Builder.Default
     private EUserType userType = EUserType.USER;
 }
