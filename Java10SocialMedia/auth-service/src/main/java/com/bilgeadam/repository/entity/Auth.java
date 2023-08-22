@@ -21,6 +21,7 @@ public class Auth extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, length = 3)
     private String username;
 
     private String password;

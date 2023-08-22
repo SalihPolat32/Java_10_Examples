@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +18,8 @@ public class ErrorMessage {
 
     private String message;
 
+    private List<String> fields;
+
     @Builder.Default
-    private LocalDateTime dateTime = LocalDateTime.now();
+    private LocalDateTime date = LocalDateTime.now();
 }

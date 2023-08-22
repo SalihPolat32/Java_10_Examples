@@ -50,6 +50,10 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
         auth.setActivationCode(CodeGenerator.generateCode());
 
+        if (authRepository.existsByUsername(dto.getUsername())) {
+            throw new AuthManagerException(ErrorType.USERNAME_ALREADY_EXISTS);
+        }
+
         save(auth);
 
         RegisterResponseDto responseDto = IAuthMapper.INSTANCE.toRegisterResponseDto(auth);
@@ -62,7 +66,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         Optional<Auth> optionalAuth = authRepository.findOptionalByUsernameAndPassword(dto.getUsername(), dto.getPassword());
 
         if (optionalAuth.isEmpty()) {
-            throw new AuthManagerException(ErrorType.USER_NOT_FOUND);
+            throw new AuthManagerException(ErrorType.LOGIN_ERROR);
         }
 
         if (!optionalAuth.get().getStatus().equals(EStatus.ACTIVE)) {
@@ -72,7 +76,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         return true;
     }
 
-    public Boolean activateStatus(ActivateRequestDto dto) {
+    public String activateStatus(ActivateRequestDto dto) {
 
         Optional<Auth> optionalAuth = findById(dto.getId());
 
@@ -87,7 +91,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (dto.getActivationCode().equals(optionalAuth.get().getActivationCode())) {
             optionalAuth.get().setStatus(EStatus.ACTIVE);
             update(optionalAuth.get());
-            return true;
+            return "Hesabınız Aktif Edildi!";
         } else {
             throw new AuthManagerException(ErrorType.INVALID_CODE);
         }
