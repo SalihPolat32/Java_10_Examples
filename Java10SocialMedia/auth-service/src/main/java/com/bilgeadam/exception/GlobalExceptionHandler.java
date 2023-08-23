@@ -9,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorMessage> handleRunTimeException(RuntimeException ex){
+    public ResponseEntity<ErrorMessage> handleRunTimeException(RuntimeException ex) {
 
         return new ResponseEntity<>(createError(ErrorType.UNEXPECTED_ERROR, ex), HttpStatus.BAD_REQUEST);
     }

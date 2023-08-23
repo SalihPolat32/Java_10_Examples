@@ -19,7 +19,7 @@ import static com.bilgeadam.constant.EndPoints.*;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private final AuthService authService; // bean name --> authService
 
     private final JwtTokenManager jwtTokenManager;
 
@@ -30,7 +30,7 @@ public class AuthController {
     }
 
     @PostMapping(LOGIN)
-    public ResponseEntity<Boolean> login(@RequestBody LoginRequestDto dto) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto) {
 
         return ResponseEntity.ok(authService.login(dto));
     }

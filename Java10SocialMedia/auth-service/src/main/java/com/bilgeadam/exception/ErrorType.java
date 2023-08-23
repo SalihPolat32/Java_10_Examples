@@ -30,9 +30,7 @@ public enum ErrorType {
 
     INVALID_TOKEN(4118, "Geçersiz Token!", HttpStatus.BAD_REQUEST);
 
-    private int code;
-
-    private String message;
-
     HttpStatus httpStatus;
+    private int code;
+    private String message;
 }
