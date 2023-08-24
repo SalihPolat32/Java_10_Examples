@@ -1,5 +1,5 @@
 server:
-  port: 7070
+  port: 7071
 
 spring:
   datasource:
@@ -11,3 +11,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
+jwt:
+  secretKey: ${java10secretkey}
+  issuer: ${java10issuer}

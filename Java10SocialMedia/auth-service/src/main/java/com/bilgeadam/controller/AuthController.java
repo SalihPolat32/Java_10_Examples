@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.bilgeadam.constant.EndPoints.*;
+import  static com.bilgeadam.constant.EndPoints.*;
 
 @RestController
 @RequestMapping(AUTH)
@@ -24,32 +24,30 @@ public class AuthController {
     private final JwtTokenManager jwtTokenManager;
 
     @PostMapping(REGISTER)
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto) {
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto){
 
         return ResponseEntity.ok(authService.register(dto));
     }
 
     @PostMapping(LOGIN)
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto) {
+    public ResponseEntity<String> login(@RequestBody LoginRequestDto dto){
 
         return ResponseEntity.ok(authService.login(dto));
     }
 
     @PostMapping(ACTIVATE_STATUS)
-    public ResponseEntity<String> login(@RequestBody ActivateRequestDto dto) {
+    public ResponseEntity<String> login(@RequestBody ActivateRequestDto dto){
 
         return ResponseEntity.ok(authService.activateStatus(dto));
     }
 
     @GetMapping("/create_token")
-    public ResponseEntity<String> createToken(Long id) {
-
+    public  ResponseEntity<String> createToken(Long id){
         return ResponseEntity.ok(jwtTokenManager.createToken(id).get());
     }
 
     @GetMapping("/get_id_from_token")
-    public ResponseEntity<Long> getIdFromToken(String token) {
-
+    public  ResponseEntity<Long> getIdFromToken(String token){
         return ResponseEntity.ok(jwtTokenManager.getIdFromToken(token).get());
     }
 }

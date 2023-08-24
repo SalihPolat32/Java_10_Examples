@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RegisterResponseDto {
 
+    private String token;
+
     private Long id;
 
     private String activationCode;
