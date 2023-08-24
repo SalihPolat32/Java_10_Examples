@@ -43,11 +43,13 @@ public class AuthController {
 
     @GetMapping("/create_token")
     public  ResponseEntity<String> createToken(Long id){
+
         return ResponseEntity.ok(jwtTokenManager.createToken(id).get());
     }
 
     @GetMapping("/get_id_from_token")
     public  ResponseEntity<Long> getIdFromToken(String token){
+
         return ResponseEntity.ok(jwtTokenManager.getIdFromToken(token).get());
     }
 }
