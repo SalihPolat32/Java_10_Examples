@@ -1,3 +1,5 @@
 rootProject.name = 'Java10SocialMedia'
 include 'auth-service'
 include 'user-service'
+include 'config-server'
+include 'git-config-server'

@@ -14,10 +14,10 @@ public class UserManagerException extends RuntimeException {
         this.errorType = errorType;
     }
 
-    public UserManagerException(ErrorType errorType, String customMessage){
+    public UserManagerException(ErrorType errorType, String customMessage) {
 
         super(customMessage);
 
-        this.errorType=errorType;
+        this.errorType = errorType;
     }
 }

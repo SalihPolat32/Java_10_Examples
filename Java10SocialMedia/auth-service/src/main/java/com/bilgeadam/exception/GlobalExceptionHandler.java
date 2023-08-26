@@ -14,9 +14,9 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.ArrayList;
 import java.util.List;
 
-// Aop
+//Aop
 @ControllerAdvice
-// @RestControllerAdvice
+//@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorMessage> handleMethodArgumentDataIntegrityViolationException(DataIntegrityViolationException ex) {
+    public ResponseEntity<ErrorMessage> handleMethodArgumentConstraintViolationException(DataIntegrityViolationException ex) {
 
         ErrorType errorType = ErrorType.DATA_INTEGRITY;
 
@@ -64,7 +64,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public final ResponseEntity<ErrorMessage> handleMessageNotReadableException(HttpMessageNotReadableException exception) {
+    public final ResponseEntity<ErrorMessage> handleMessageNotReadableException(
+            HttpMessageNotReadableException exception) {
 
         ErrorType errorType = ErrorType.BAD_REQUEST;
 
@@ -72,15 +73,18 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InvalidFormatException.class)
-    public final ResponseEntity<ErrorMessage> handleInvalidFormatException(InvalidFormatException exception) {
+    public final ResponseEntity<ErrorMessage> handleInvalidFormatException(
+            InvalidFormatException exception) {
 
         ErrorType errorType = ErrorType.BAD_REQUEST;
 
         return new ResponseEntity<>(createError(errorType, exception), errorType.getHttpStatus());
     }
 
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public final ResponseEntity<ErrorMessage> handleMethodArgumentMisMatchException(MethodArgumentTypeMismatchException exception) {
+    public final ResponseEntity<ErrorMessage> handleMethodArgumentMisMatchException(
+            MethodArgumentTypeMismatchException exception) {
 
         ErrorType errorType = ErrorType.BAD_REQUEST;
 
@@ -88,7 +92,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MissingPathVariableException.class)
-    public final ResponseEntity<ErrorMessage> handleMethodArgumentMisMatchException(MissingPathVariableException exception) {
+    public final ResponseEntity<ErrorMessage> handleMethodArgumentMisMatchException(
+            MissingPathVariableException exception) {
 
         ErrorType errorType = ErrorType.BAD_REQUEST;
 

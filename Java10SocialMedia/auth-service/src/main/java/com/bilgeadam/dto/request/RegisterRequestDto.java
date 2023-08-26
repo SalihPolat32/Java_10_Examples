@@ -15,15 +15,15 @@ import javax.validation.constraints.Size;
 @Builder
 public class RegisterRequestDto {
 
-    @NotBlank(message = "Username Boş Bırakılamaz!!!")
+    @NotBlank(message = "Username Boş Geçilemez!")
     private String username;
 
-    @NotBlank(message = "Email Boş Bırakılamaz!!!")
+    @NotBlank(message = "Email Boş Geçilemez!")
     @Email
     private String email;
 
-    @NotBlank(message = "Password Boş Bırakılamaz!!!")
-    @Size(min = 5, max = 32, message = "Password 5 ile 32 Karakter Arasında Olmalıdır!!!")
+    @NotBlank(message = "Şifre Boş Geçilemez!")
+    @Size(min = 5, max = 32, message = "Şifre Uzunluğu En Az 5 Karakter En Fazla 32 Karakter Olabilir!")
     // @Pattern(regexp = "^.*(?=.{5,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$")
     private String password;
 }

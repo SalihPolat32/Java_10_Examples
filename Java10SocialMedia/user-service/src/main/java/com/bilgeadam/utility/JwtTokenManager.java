@@ -4,8 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.exception.ErrorType;
+import com.bilgeadam.exception.UserManagerException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,79 +21,80 @@ public class JwtTokenManager {
     @Value("${jwt.issuer}")
     String issuer;
 
-    public Optional<String> createToken(Long id){
+    public Optional<String> createToken(Long id) {
 
-        String token=null;
+        String token = null;
 
-        Date date=new Date(System.currentTimeMillis()+(1000 * 60 * 5));
+        Date date = new Date(System.currentTimeMillis() + (1000 * 60 * 5));
 
         try {
 
-            token= JWT.create()
+            token = JWT.create()
                     .withIssuer(issuer)
-                    .withClaim("myId",id)
+                    .withClaim("myId", id)
                     .withIssuedAt(new Date())
                     .withExpiresAt(date)
                     .sign(Algorithm.HMAC512(secretKey));
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             System.out.println(e.getMessage());
 
         }
-        return  Optional.ofNullable(token);
+
+        return Optional.ofNullable(token);
     }
 
-    public Optional<Long> getAuthIdFromToken(String token){
+    public Optional<Long> getAuthIdFromToken(String token) {
 
         try {
 
-           Algorithm algorithm=Algorithm.HMAC512(secretKey);
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
 
-           JWTVerifier verifier=JWT.require(algorithm).withIssuer(issuer).build();
+            JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
 
-           DecodedJWT decodedJWT=verifier.verify(token);
+            DecodedJWT decodedJWT = verifier.verify(token);
 
-            if (decodedJWT==null){
+            if (decodedJWT == null) {
                 throw new UserManagerException(ErrorType.INVALID_TOKEN);
             }
 
-            Long id=decodedJWT.getClaim("myId").asLong();
+            Long id = decodedJWT.getClaim("myId").asLong();
 
             return Optional.of(id);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             System.out.println(e.toString());
 
-            throw  new UserManagerException(ErrorType.INVALID_TOKEN);
+            throw new UserManagerException(ErrorType.INVALID_TOKEN);
 
         }
     }
 
-    public Optional<String> getRoleFromToken(String token){
+    public Optional<String> getRoleFromToken(String token) {
 
         try {
 
-            Algorithm algorithm=Algorithm.HMAC512(secretKey);
+            Algorithm algorithm = Algorithm.HMAC512(secretKey);
 
-            JWTVerifier verifier=JWT.require(algorithm).withIssuer(issuer).build();
+            JWTVerifier verifier = JWT.require(algorithm).withIssuer(issuer).build();
 
-            DecodedJWT decodedJWT=verifier.verify(token);
+            DecodedJWT decodedJWT = verifier.verify(token);
 
-            if (decodedJWT==null){
+            if (decodedJWT == null) {
                 throw new UserManagerException(ErrorType.INVALID_TOKEN);
             }
 
-            String role=decodedJWT.getClaim("role").asString();
+            String role = decodedJWT.getClaim("role").asString();
 
             return Optional.of(role);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
             System.out.println(e.toString());
 
-            throw  new UserManagerException(ErrorType.INVALID_TOKEN);
+            throw new UserManagerException(ErrorType.INVALID_TOKEN);
 
         }
     }

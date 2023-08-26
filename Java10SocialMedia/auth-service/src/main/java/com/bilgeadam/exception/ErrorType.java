@@ -8,34 +8,34 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(HttpStatus.INTERNAL_SERVER_ERROR, 5100, "Sunucu Hatası!"),
+    INTERNAL_ERROR_SERVER(5100, "Sunucu Hatası!",HttpStatus.INTERNAL_SERVER_ERROR),
 
-    BAD_REQUEST(HttpStatus.BAD_REQUEST, 4100, "Parametre Hatası!"),
+    BAD_REQUEST(4100, "Parametre Hatası!",HttpStatus.BAD_REQUEST),
 
-    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 4110, "Böyle Bir Kullanıcı Bulunamadı!"),
+    USER_NOT_FOUND(4110, "Böyle Bir Kullanıcı Bulunamadı!",HttpStatus.NOT_FOUND),
 
-    ACCOUNT_NOT_ACTIVE(HttpStatus.BAD_REQUEST, 4111, "Hesabınız Aktif Değildir!"),
+    ACCOUNT_NOT_ACTIVE(4111, "Hesabınız Aktif Değildir!", HttpStatus.BAD_REQUEST),
 
-    INVALID_CODE(HttpStatus.BAD_REQUEST, 4112, "Geçersiz Kod!"),
+    INVALID_CODE(4112, "Geçersiz Kod!", HttpStatus.BAD_REQUEST),
 
-    ALREADY_ACTIVE(HttpStatus.BAD_REQUEST, 4113, "Hesabınız Zaten Aktif!"),
+    ALREADY_ACTIVE(4113, "Hesabınız Zaten Aktif!", HttpStatus.BAD_REQUEST),
 
-    UNEXPECTED_ERROR(HttpStatus.BAD_REQUEST, 4114, "Beklenmeyen Bir Hata Oluştu!"),
+    UNEXPECTED_ERROR(4114, "Beklenmeyen Bir Hata Oluştu!", HttpStatus.BAD_REQUEST),
 
-    USERNAME_ALREADY_EXIST(HttpStatus.BAD_REQUEST, 4115, "Kullanıcı Adı Zaten Kullanılıyor!"),
+    USERNAME_ALREADY_EXIST(4115, "Böyle Bir Kullanıcı Adı Bulunmaktadır!", HttpStatus.BAD_REQUEST),
 
-    DATA_INTEGRITY(HttpStatus.BAD_REQUEST, 4116, "Veri Bütünlüğü Hatası!"),
+    DATA_INTEGRITY(4116, "Hatalı Veri!", HttpStatus.BAD_REQUEST),
 
-    LOGIN_ERROR(HttpStatus.BAD_REQUEST, 4117, "Kullanıcı Adı veya Şifre Hatalı!"),
+    LOGIN_ERROR(4117, "Kullanıcı Adı Veya Şifre Hatalı!", HttpStatus.BAD_REQUEST),
 
-    INVALID_TOKEN(HttpStatus.BAD_REQUEST, 4118, "Geçersiz Token!"),
+    INVALID_TOKEN(4118, "Geçersiz Token!", HttpStatus.BAD_REQUEST),
 
-    TOKEN_NOT_CREATED(HttpStatus.BAD_REQUEST, 4119, "Token Oluşturulamadı!");
+    TOKEN_NOT_CREATED(4119, "Token Oluşturulamadı!", HttpStatus.BAD_REQUEST);
 
-
-    HttpStatus httpStatus;
 
     private int code;
 
     private String message;
+
+    HttpStatus httpStatus;
 }

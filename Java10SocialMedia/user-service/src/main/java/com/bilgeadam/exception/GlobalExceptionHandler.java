@@ -1,6 +1,5 @@
 package com.bilgeadam.exception;
 
-
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -15,58 +14,59 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import java.util.ArrayList;
 import java.util.List;
 
-//Aop
+// Aop
 @ControllerAdvice
-//@RestControllerAdvice
+// @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorMessage> handleRunTimeException(RuntimeException ex){
+    public ResponseEntity<ErrorMessage> handleRunTimeException(RuntimeException ex) {
 
-        return new ResponseEntity<>( createError(ErrorType.UNEXPECTED_ERROR,ex),HttpStatus.BAD_REQUEST);
+        ex.printStackTrace();
+
+        return new ResponseEntity<>(createError(ErrorType.UNEXPECTED_ERROR, ex), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserManagerException.class)
-    public ResponseEntity<ErrorMessage> handleManagerException(UserManagerException exception){
+    public ResponseEntity<ErrorMessage> handleManagerException(UserManagerException exception) {
 
         ErrorType errorType = exception.getErrorType();
 
         HttpStatus httpStatus = errorType.getHttpStatus();
 
-        ErrorMessage errorMessage=createError(errorType,exception);
+        ErrorMessage errorMessage = createError(errorType, exception);
 
         errorMessage.setMessage(exception.getMessage());
 
-        return new ResponseEntity<>(errorMessage,httpStatus);
+        return new ResponseEntity<>(errorMessage, httpStatus);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex){
+    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
 
-        ErrorType errorType=ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.BAD_REQUEST;
 
-        List<String> fields=new ArrayList<>();
+        List<String> fields = new ArrayList<>();
 
-        ex.getBindingResult().getFieldErrors().forEach(e-> fields.add(e.getField()+": "+ e.getDefaultMessage()));
+        ex.getBindingResult().getFieldErrors().forEach(e -> fields.add(e.getField() + ": " + e.getDefaultMessage()));
 
-        ErrorMessage errorMessage=createError(errorType,ex);
+        ErrorMessage errorMessage = createError(errorType, ex);
 
         errorMessage.setFields(fields);
 
-        return new ResponseEntity<>(errorMessage,errorType.getHttpStatus());
+        return new ResponseEntity<>(errorMessage, errorType.getHttpStatus());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ErrorMessage> handleMethodArgumentConstraintViolationException(DataIntegrityViolationException ex){
+    public ResponseEntity<ErrorMessage> handleMethodArgumentConstraintViolationException(DataIntegrityViolationException ex) {
 
-        ErrorType errorType=ErrorType.BAD_REQUEST;
+        ErrorType errorType = ErrorType.BAD_REQUEST;
 
-        return  new ResponseEntity<>(createError(errorType,ex),errorType.getHttpStatus());
+        return new ResponseEntity<>(createError(errorType, ex), errorType.getHttpStatus());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public final ResponseEntity<ErrorMessage> handleMessageNotReadableException(
-            HttpMessageNotReadableException exception) {
+    public final ResponseEntity<ErrorMessage> handleMessageNotReadableException(HttpMessageNotReadableException exception) {
 
         ErrorType errorType = ErrorType.BAD_REQUEST;
 
@@ -118,11 +118,11 @@ public class GlobalExceptionHandler {
 
     private ErrorMessage createError(ErrorType errorType, Exception exception) {
 
-        System.out.println("Hata olustu: "+exception.getMessage());
+        System.out.println("Hata Oluştu: " + exception.getMessage());
 
-       return ErrorMessage.builder()
-               .code(errorType.getCode())
-               .message(errorType.getMessage())
-               .build();
+        return ErrorMessage.builder()
+                .code(errorType.getCode())
+                .message(errorType.getMessage())
+                .build();
     }
 }

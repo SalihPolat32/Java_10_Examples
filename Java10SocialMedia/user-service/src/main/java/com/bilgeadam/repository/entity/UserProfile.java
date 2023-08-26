@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Data
 @SuperBuilder
 @Entity
-public class UserProfile extends BaseEntity{
+public class UserProfile extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

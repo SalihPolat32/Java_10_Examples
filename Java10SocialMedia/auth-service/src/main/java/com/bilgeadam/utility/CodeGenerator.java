@@ -9,7 +9,7 @@ public class CodeGenerator {
     // af7c1fe6-d669-414e-b066-e9733f0de7a8
     // ad4be
     // Metotda bize string olarak kodu döndürsün
-    public static String generateCode(){
+    public static String generateCode() {
 
         String uuid = UUID.randomUUID().toString();
 
@@ -18,9 +18,9 @@ public class CodeGenerator {
 
         String newCode = "";
 
-        int i=0;
+        int i = 0;
 
-        while(i < data.length){
+        while (i < data.length) {
             newCode += data[i].charAt(0);
             i++;
         }

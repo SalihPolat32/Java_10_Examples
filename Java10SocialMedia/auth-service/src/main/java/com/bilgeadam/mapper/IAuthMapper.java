@@ -18,6 +18,6 @@ public interface IAuthMapper {
 
     RegisterResponseDto toRegisterResponseDto(Auth auth);
 
-    @Mapping(source = "id",target = "authId")
+    @Mapping(source = "id", target = "authId")
     UserSaveRequestDto toUserSaveRequestDto(Auth auth);
 }
