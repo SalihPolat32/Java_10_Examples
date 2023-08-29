@@ -9,6 +9,8 @@ import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.manager.IUserManager;
 import com.bilgeadam.mapper.IAuthMapper;
+import com.bilgeadam.rabbitmq.producer.ActivationProducer;
+import com.bilgeadam.rabbitmq.producer.RegisterProducer;
 import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
 import com.bilgeadam.repository.enums.EStatus;
@@ -45,7 +47,11 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     private final IUserManager userManager;
 
-    public AuthService(IAuthRepository authRepository, JwtTokenManager jwtTokenManager, IUserManager userManager) {
+    private final RegisterProducer registerProducer;
+
+    private final ActivationProducer activationProducer;
+
+    public AuthService(IAuthRepository authRepository, JwtTokenManager jwtTokenManager, IUserManager userManager, RegisterProducer registerProducer, ActivationProducer activationProducer) {
 
         super(authRepository);
 
@@ -54,6 +60,10 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.jwtTokenManager = jwtTokenManager;
 
         this.userManager = userManager;
+
+        this.registerProducer = registerProducer;
+
+        this.activationProducer = activationProducer;
     }
 
     @Transactional
@@ -69,9 +79,38 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
         save(auth);
 
-        // Bir metot yazacağiz 2 microservis arası haberleşme için
+        // Bir metot yazacağız 2 microservis arası haberleşme için
 
         userManager.save(IAuthMapper.INSTANCE.toUserSaveRequestDto(auth));
+
+        RegisterResponseDto responseDto = IAuthMapper.INSTANCE.toRegisterResponseDto(auth);
+
+        String token = jwtTokenManager.createToken(auth.getId())
+                .orElseThrow(() -> new AuthManagerException(ErrorType.INVALID_TOKEN));
+
+        responseDto.setToken(token);
+
+        return responseDto;
+    }
+
+    @Transactional
+    public RegisterResponseDto registerWithRabbitMq(RegisterRequestDto dto) {
+
+        Auth auth = IAuthMapper.INSTANCE.toAuth(dto);
+
+        auth.setActivationCode(CodeGenerator.generateCode());
+
+        if (authRepository.existsByUsername(dto.getUsername())) {
+            throw new AuthManagerException(ErrorType.USERNAME_ALREADY_EXIST);
+        }
+
+        save(auth);
+
+        // rabbit mq İle Haberleştireceğiz
+
+        registerProducer.sendNewUser(IAuthMapper.INSTANCE.toRegisterModel(auth));
+
+        // register token Oluşturma
 
         RegisterResponseDto responseDto = IAuthMapper.INSTANCE.toRegisterResponseDto(auth);
 
@@ -121,7 +160,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
         if (dto.getActivationCode().equals(optionalAuth.get().getActivationCode())) {
             optionalAuth.get().setStatus(EStatus.ACTIVE);
             update(optionalAuth.get());
-            userManager.activateStatus(dto.getToken());
+            // userManager.activateStatus(dto.getToken());     // open feign İle Haberleşme
+            activationProducer.activateStatus(dto.getToken()); // rabbitmq İle Haberleşme
             return "Hesabınız Aktive Edilmiştir.";
         } else {
             throw new AuthManagerException(ErrorType.INVALID_CODE);

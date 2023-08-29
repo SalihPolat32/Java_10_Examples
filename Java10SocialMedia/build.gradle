@@ -39,18 +39,18 @@ allprojects {
         }
     }
     dependencies {
-        implementation        libs.springBootWeb
-        implementation        libs.lombok
-        annotationProcessor   libs.lombok
-        implementation        libs.mapstruct
-        annotationProcessor   libs.mapstructProcessor
-        implementation        libs.openapi
-        implementation        libs.springBootValidation
-        implementation        libs.javaJwt
-        implementation        libs.springCloudOpenFeign
-        implementation        libs.springCloudZipkin
-        implementation        libs.springCloudSleuth
-        implementation        libs.springBootRabbitMq
+        implementation libs.springBootWeb
+        implementation libs.lombok
+        annotationProcessor libs.lombok
+        implementation libs.mapstruct
+        annotationProcessor libs.mapstructProcessor
+        implementation libs.openapi
+        implementation libs.springBootValidation
+        implementation libs.javaJwt
+        implementation libs.springCloudOpenFeign
+        implementation libs.springCloudZipkin
+        implementation libs.springCloudSleuth
+        implementation libs.springBootRabbitMq
     }
 }
 

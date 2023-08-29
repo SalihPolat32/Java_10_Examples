@@ -16,7 +16,7 @@ public interface IUserManager {
     @PostMapping(SAVE)
     ResponseEntity<Boolean> save(@RequestBody UserSaveRequestDto dto);
 
-//    @PostMapping(ACTIVATE_STATUS)
+    //    @PostMapping(ACTIVATE_STATUS)
 //    ResponseEntity<String> activateStatus(@RequestParam String token);
 //    @PostMapping(ACTIVATE_STATUS)
 //    ResponseEntity<String> activateStatus(@RequestBody String dto);

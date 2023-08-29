@@ -8,28 +8,28 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorType {
 
-    INTERNAL_ERROR_SERVER(5200, "Sunucu Hatası!", HttpStatus.INTERNAL_SERVER_ERROR),
+    INTERNAL_ERROR_SERVER(HttpStatus.INTERNAL_SERVER_ERROR, 5200, "Sunucu Hatası!"),
 
-    BAD_REQUEST(4200, "Parametre Hatası!", HttpStatus.BAD_REQUEST),
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, 4200, "Parametre Hatası!"),
 
-    USER_NOT_FOUND(4210, "Böyle Bir Kullanıcı Bulunamadı!", HttpStatus.NOT_FOUND),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, 4210, "Böyle Bir Kullanıcı Bulunamadı!"),
 
-    ACCOUNT_NOT_ACTIVE(4211, "Hesabınız Aktif Değildir!", HttpStatus.BAD_REQUEST),
+    ACCOUNT_NOT_ACTIVE(HttpStatus.BAD_REQUEST, 4211, "Hesabınız Aktif Değildir!"),
 
-    INVALID_CODE(4212, "Geçersiz Kod!", HttpStatus.BAD_REQUEST),
+    INVALID_CODE(HttpStatus.BAD_REQUEST, 4212, "Geçersiz Kod!"),
 
-    UNEXPECTED_ERROR(4213, "Beklenmeyen Bir Hata Oluştu!", HttpStatus.BAD_REQUEST),
+    UNEXPECTED_ERROR(HttpStatus.BAD_REQUEST, 4213, "Beklenmeyen Bir Hata Oluştu!"),
 
-    INVALID_TOKEN(4214, "Geçersiz Token!", HttpStatus.BAD_REQUEST),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, 4214, "Geçersiz Token!"),
 
-    TOKEN_NOT_CREATED(4215, "Token Oluşturulamadı!", HttpStatus.BAD_REQUEST),
+    TOKEN_NOT_CREATED(HttpStatus.BAD_REQUEST, 4215, "Token Oluşturulamadı!"),
 
-    USER_NOT_CREATED(4216, "Kullanıcı Oluşturulamadı!", HttpStatus.BAD_REQUEST );
+    USER_NOT_CREATED(HttpStatus.BAD_REQUEST, 4216, "Kullanıcı Oluşturulamadı!");
 
+
+    HttpStatus httpStatus;
 
     private int code;
 
     private String message;
-
-    HttpStatus httpStatus;
 }

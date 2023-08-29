@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class FallbackController {
 
     @GetMapping("/auth_service")
-    public ResponseEntity<String> authServiceFallback(){
+    public ResponseEntity<String> authServiceFallback() {
 
-        return  ResponseEntity.ok("Auth Service Şu Anda Hizmet Veremiyor!");
+        return ResponseEntity.ok("Auth Service Şu Anda Hizmet Veremiyor!");
     }
 
     @GetMapping("/user_service")
-    public ResponseEntity<String> userServiceFallback(){
+    public ResponseEntity<String> userServiceFallback() {
 
-        return  ResponseEntity.ok("User Service Şu anda Hizmet Veremiyor!");
+        return ResponseEntity.ok("User Service Şu anda Hizmet Veremiyor!");
     }
 }

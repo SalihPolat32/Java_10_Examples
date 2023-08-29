@@ -3,13 +3,14 @@ package com.bilgeadam.mapper;
 import com.bilgeadam.dto.request.RegisterRequestDto;
 import com.bilgeadam.dto.request.UserSaveRequestDto;
 import com.bilgeadam.dto.response.RegisterResponseDto;
+import com.bilgeadam.rabbitmq.model.RegisterModel;
 import com.bilgeadam.repository.entity.Auth;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-28T13:11:40+0300",
+    date = "2023-08-29T12:57:33+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component
@@ -58,5 +59,20 @@ public class IAuthMapperImpl implements IAuthMapper {
         userSaveRequestDto.email( auth.getEmail() );
 
         return userSaveRequestDto.build();
+    }
+
+    @Override
+    public RegisterModel toRegisterModel(Auth auth) {
+        if ( auth == null ) {
+            return null;
+        }
+
+        RegisterModel.RegisterModelBuilder registerModel = RegisterModel.builder();
+
+        registerModel.authId( auth.getId() );
+        registerModel.username( auth.getUsername() );
+        registerModel.email( auth.getEmail() );
+
+        return registerModel.build();
     }
 }

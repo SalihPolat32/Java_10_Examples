@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static com.bilgeadam.constant.EndPoints.*;
@@ -43,7 +42,7 @@ public class UserController {
     }
 
     @GetMapping(FIND_ALL)
-    public ResponseEntity<List<UserProfile>> findAll(){
+    public ResponseEntity<List<UserProfile>> findAll() {
 
         return ResponseEntity.ok(userService.findAll());
     }

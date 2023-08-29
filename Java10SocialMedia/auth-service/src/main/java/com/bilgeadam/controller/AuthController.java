@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
 import java.util.List;
 
 import static com.bilgeadam.constant.EndPoints.*;
@@ -31,6 +30,12 @@ public class AuthController {
     public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto dto) {
 
         return ResponseEntity.ok(authService.register(dto));
+    }
+
+    @PostMapping(REGISTER + "_with_rabbitmq")
+    public ResponseEntity<RegisterResponseDto> registerWithRabbitMq(@RequestBody @Valid RegisterRequestDto dto) {
+
+        return ResponseEntity.ok(authService.registerWithRabbitMq(dto));
     }
 
     @PostMapping(LOGIN)
@@ -64,7 +69,7 @@ public class AuthController {
     }
 
     @GetMapping(FIND_ALL)
-    public ResponseEntity<List<Auth>> findAll(){
+    public ResponseEntity<List<Auth>> findAll() {
 
         try {
 
