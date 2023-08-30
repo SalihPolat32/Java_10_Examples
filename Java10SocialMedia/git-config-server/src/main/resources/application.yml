@@ -14,7 +14,7 @@ spring:
       server:
         git:
           uri: ${java10-git-uri}
-          default-label: master
+          default-label: main
           skip-ssl-validation: true
           username: ${java10-git-username}
           password: ${java10-git-password}
