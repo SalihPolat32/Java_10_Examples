@@ -14,6 +14,10 @@ import java.util.List;
 
 import static com.bilgeadam.constant.EndPoints.*;
 
+/*
+ * findByStatus Metodu Yazıp cache'leme Yapalım
+ */
+
 @RestController
 @RequestMapping(USER)
 @RequiredArgsConstructor
@@ -45,5 +49,11 @@ public class UserController {
     public ResponseEntity<List<UserProfile>> findAll() {
 
         return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/find_by_username/{username}")
+    public ResponseEntity<UserProfile> findByUsername(@PathVariable String username) {
+
+        return ResponseEntity.ok(userService.findByUsername(username));
     }
 }

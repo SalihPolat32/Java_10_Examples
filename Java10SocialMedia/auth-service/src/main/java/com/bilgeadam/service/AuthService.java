@@ -9,7 +9,9 @@ import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.manager.IUserManager;
 import com.bilgeadam.mapper.IAuthMapper;
+import com.bilgeadam.rabbitmq.model.MailModel;
 import com.bilgeadam.rabbitmq.producer.ActivationProducer;
+import com.bilgeadam.rabbitmq.producer.MailProducer;
 import com.bilgeadam.rabbitmq.producer.RegisterProducer;
 import com.bilgeadam.repository.IAuthRepository;
 import com.bilgeadam.repository.entity.Auth;
@@ -51,7 +53,9 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     private final ActivationProducer activationProducer;
 
-    public AuthService(IAuthRepository authRepository, JwtTokenManager jwtTokenManager, IUserManager userManager, RegisterProducer registerProducer, ActivationProducer activationProducer) {
+    private final MailProducer mailProducer;
+
+    public AuthService(IAuthRepository authRepository, JwtTokenManager jwtTokenManager, IUserManager userManager, RegisterProducer registerProducer, ActivationProducer activationProducer, MailProducer mailProducer) {
 
         super(authRepository);
 
@@ -64,6 +68,8 @@ public class AuthService extends ServiceManager<Auth, Long> {
         this.registerProducer = registerProducer;
 
         this.activationProducer = activationProducer;
+
+        this.mailProducer = mailProducer;
     }
 
     @Transactional
@@ -118,6 +124,19 @@ public class AuthService extends ServiceManager<Auth, Long> {
                 .orElseThrow(() -> new AuthManagerException(ErrorType.INVALID_TOKEN));
 
         responseDto.setToken(token);
+
+        // Mail Atma İşlemi İçin Mail Servis İle Haberleşilecek
+
+        MailModel mailModel = IAuthMapper.INSTANCE.toMailModel(auth);
+        mailModel.setToken(token);
+
+//        mailProducer.sendMail(MailModel
+//                .builder().username(auth.getUsername()).email(auth.getEmail())
+//                .activationCode(auth.getActivationCode())
+//                .token(token)
+//                .build());
+
+        mailProducer.sendMail(mailModel);
 
         return responseDto;
     }
