@@ -30,8 +30,6 @@ public enum ErrorType {
 
 
     HttpStatus httpStatus;
-
     private int code;
-
     private String message;
 }

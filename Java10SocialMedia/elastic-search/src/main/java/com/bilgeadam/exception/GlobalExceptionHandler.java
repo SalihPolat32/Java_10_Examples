@@ -27,8 +27,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(createError(ErrorType.UNEXPECTED_ERROR, ex), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MailManagerException.class)
-    public ResponseEntity<ErrorMessage> handleManagerException(MailManagerException exception) {
+    @ExceptionHandler(ElasticManagerException.class)
+    public ResponseEntity<ErrorMessage> handleManagerException(ElasticManagerException exception) {
 
         ErrorType errorType = exception.getErrorType();
 

@@ -1,0 +1,5 @@
+dependencies {
+    implementation libs.springBootElasticSearch
+    implementation project(path: ':user-service')
+    implementation project(path: ':user-service')
+}

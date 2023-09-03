@@ -128,4 +128,10 @@ public class AuthController {
 
         }
     }
+
+    @DeleteMapping(DELETE_BY_ID)
+    public ResponseEntity<String> deleteById(@RequestParam Long id) {
+
+        return ResponseEntity.ok(authService.deleteAuth(id));
+    }
 }
