@@ -1,25 +1,20 @@
-package com.bilgeadam.repository.entity;
+package com.bilgeadam.dto.response;
 
 import com.bilgeadam.repository.enums.EStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@SuperBuilder
-@Document
-public class UserProfile extends BaseEntity {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserProfileFindAllResponseDto {
 
-    @Id
-    private String id;
+    private Long userProfileId;
 
     private Long authId;
 
@@ -41,6 +36,5 @@ public class UserProfile extends BaseEntity {
 
     private LocalDate birthDate;
 
-    @Builder.Default
-    private EStatus status = EStatus.PENDING;
+    private EStatus status;
 }

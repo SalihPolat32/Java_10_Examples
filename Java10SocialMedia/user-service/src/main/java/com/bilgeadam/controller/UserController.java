@@ -2,6 +2,7 @@ package com.bilgeadam.controller;
 
 import com.bilgeadam.dto.request.UserProfileUpdateRequestDto;
 import com.bilgeadam.dto.request.UserSaveRequestDto;
+import com.bilgeadam.dto.response.UserProfileFindAllResponseDto;
 import com.bilgeadam.repository.entity.UserProfile;
 import com.bilgeadam.repository.enums.EStatus;
 import com.bilgeadam.service.UserService;
@@ -47,9 +48,9 @@ public class UserController {
     }
 
     @GetMapping(FIND_ALL)
-    public ResponseEntity<List<UserProfile>> findAll() {
+    public ResponseEntity<List<UserProfileFindAllResponseDto>> findAll() {
 
-        return ResponseEntity.ok(userService.findAll());
+        return ResponseEntity.ok(userService.findAllUserProfile());
     }
 
     @GetMapping("/find_by_username/{username}")

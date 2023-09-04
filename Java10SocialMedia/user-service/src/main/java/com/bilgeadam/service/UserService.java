@@ -3,11 +3,13 @@ package com.bilgeadam.service;
 import com.bilgeadam.dto.request.AuthUpdateRequestDto;
 import com.bilgeadam.dto.request.UserProfileUpdateRequestDto;
 import com.bilgeadam.dto.request.UserSaveRequestDto;
+import com.bilgeadam.dto.response.UserProfileFindAllResponseDto;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.exception.UserManagerException;
 import com.bilgeadam.manager.IAuthManager;
 import com.bilgeadam.mapper.IUserMapper;
 import com.bilgeadam.rabbitmq.model.RegisterModel;
+import com.bilgeadam.rabbitmq.producer.RegisterElasticProducer;
 import com.bilgeadam.repository.IUserRepository;
 import com.bilgeadam.repository.entity.UserProfile;
 import com.bilgeadam.repository.enums.EStatus;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /*
  *  Update metodu yazalım
@@ -29,7 +32,7 @@ import java.util.Optional;
  *  Auth servisdede guncelleme yapsın
  */
 @Service
-public class UserService extends ServiceManager<UserProfile, Long> {
+public class UserService extends ServiceManager<UserProfile, String> {
 
     private final IUserRepository userRepository;
 
@@ -39,7 +42,9 @@ public class UserService extends ServiceManager<UserProfile, Long> {
 
     private final CacheManager cacheManager;
 
-    public UserService(IUserRepository userRepository, JwtTokenManager jwtTokenManager, IAuthManager authManager, CacheManager cacheManager) {
+    private final RegisterElasticProducer registerElasticProducer;
+
+    public UserService(IUserRepository userRepository, JwtTokenManager jwtTokenManager, IAuthManager authManager, CacheManager cacheManager, RegisterElasticProducer registerElasticProducer) {
 
         super(userRepository);
 
@@ -50,6 +55,8 @@ public class UserService extends ServiceManager<UserProfile, Long> {
         this.authManager = authManager;
 
         this.cacheManager = cacheManager;
+
+        this.registerElasticProducer = registerElasticProducer;
     }
 
     public Boolean createNewUser(UserSaveRequestDto dto) {
@@ -147,6 +154,8 @@ public class UserService extends ServiceManager<UserProfile, Long> {
 
             save(userProfile);
 
+            registerElasticProducer.sendNewUser(IUserMapper.INSTANCE.toRegisterElasticModel(userProfile));
+
             return true;
 
         } catch (Exception e) {
@@ -243,5 +252,13 @@ public class UserService extends ServiceManager<UserProfile, Long> {
         cacheManager.getCache("find_by_username").evict(userProfile.get().getUsername());
 
         return userProfile.get().getId() + "id'li Kullancı Silinmiştir.";
+    }
+
+    public List<UserProfileFindAllResponseDto> findAllUserProfile() {
+
+        List<UserProfile> userProfileList = findAll();
+
+        return userProfileList.stream()
+                .map(x -> IUserMapper.INSTANCE.toUserProfileFindAllResponseDto(x)).collect(Collectors.toList());
     }
 }

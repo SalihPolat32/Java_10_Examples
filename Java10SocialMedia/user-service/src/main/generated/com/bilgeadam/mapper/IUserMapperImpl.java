@@ -2,6 +2,8 @@ package com.bilgeadam.mapper;
 
 import com.bilgeadam.dto.request.UserProfileUpdateRequestDto;
 import com.bilgeadam.dto.request.UserSaveRequestDto;
+import com.bilgeadam.dto.response.UserProfileFindAllResponseDto;
+import com.bilgeadam.rabbitmq.model.RegisterElasticModel;
 import com.bilgeadam.rabbitmq.model.RegisterModel;
 import com.bilgeadam.repository.entity.UserProfile;
 import javax.annotation.processing.Generated;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-31T13:34:23+0300",
+    date = "2023-09-04T13:37:59+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component
@@ -63,5 +65,47 @@ public class IUserMapperImpl implements IUserMapper {
         userProfile.surName( dto.getSurName() );
 
         return userProfile.build();
+    }
+
+    @Override
+    public UserProfileFindAllResponseDto toUserProfileFindAllResponseDto(UserProfile userProfile) {
+        if ( userProfile == null ) {
+            return null;
+        }
+
+        UserProfileFindAllResponseDto.UserProfileFindAllResponseDtoBuilder userProfileFindAllResponseDto = UserProfileFindAllResponseDto.builder();
+
+        if ( userProfile.getId() != null ) {
+            userProfileFindAllResponseDto.userProfileId( Long.parseLong( userProfile.getId() ) );
+        }
+        userProfileFindAllResponseDto.authId( userProfile.getAuthId() );
+        userProfileFindAllResponseDto.username( userProfile.getUsername() );
+        userProfileFindAllResponseDto.email( userProfile.getEmail() );
+        userProfileFindAllResponseDto.phone( userProfile.getPhone() );
+        userProfileFindAllResponseDto.address( userProfile.getAddress() );
+        userProfileFindAllResponseDto.avatar( userProfile.getAvatar() );
+        userProfileFindAllResponseDto.about( userProfile.getAbout() );
+        userProfileFindAllResponseDto.name( userProfile.getName() );
+        userProfileFindAllResponseDto.surName( userProfile.getSurName() );
+        userProfileFindAllResponseDto.birthDate( userProfile.getBirthDate() );
+        userProfileFindAllResponseDto.status( userProfile.getStatus() );
+
+        return userProfileFindAllResponseDto.build();
+    }
+
+    @Override
+    public RegisterElasticModel toRegisterElasticModel(UserProfile userProfile) {
+        if ( userProfile == null ) {
+            return null;
+        }
+
+        RegisterElasticModel.RegisterElasticModelBuilder registerElasticModel = RegisterElasticModel.builder();
+
+        registerElasticModel.id( userProfile.getId() );
+        registerElasticModel.authId( userProfile.getAuthId() );
+        registerElasticModel.username( userProfile.getUsername() );
+        registerElasticModel.email( userProfile.getEmail() );
+
+        return registerElasticModel.build();
     }
 }

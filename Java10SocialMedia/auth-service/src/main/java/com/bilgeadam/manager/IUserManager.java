@@ -24,5 +24,5 @@ public interface IUserManager {
     ResponseEntity<String> activateStatus(@RequestParam("token") String token);
 
     @DeleteMapping(DELETE_BY_ID)
-    ResponseEntity<String> deleteById(@RequestParam Long id);
+    ResponseEntity<String> deleteById(@RequestParam("id") Long id);
 }
