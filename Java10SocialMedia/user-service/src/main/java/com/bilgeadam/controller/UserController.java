@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,7 +33,9 @@ public class UserController {
     private final JwtTokenManager jwtTokenManager;
 
     @PostMapping(SAVE)
-    public ResponseEntity<Boolean> save(@RequestBody UserSaveRequestDto dto) {
+    public ResponseEntity<Boolean> save(@RequestBody UserSaveRequestDto dto, @RequestHeader("Authorization") String token) {
+
+        System.out.println("Authdan Gelen token ==> " + token);
 
         return ResponseEntity.ok(userService.createNewUser(dto));
     }
@@ -50,6 +53,7 @@ public class UserController {
     }
 
     @GetMapping(FIND_ALL)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<UserProfileFindAllResponseDto>> findAll() {
 
         return ResponseEntity.ok(userService.findAllUserProfile());
@@ -74,9 +78,9 @@ public class UserController {
     }
 
     @DeleteMapping(DELETE_BY_ID)
-    public ResponseEntity<String> deleteById(@RequestParam Long id) {
+    public ResponseEntity<String> deleteById(@RequestHeader("Authorization") String token) {
 
-        return ResponseEntity.ok(userService.deleteUserProfile(id));
+        return ResponseEntity.ok(userService.deleteUserProfile(token));
     }
 
     @GetMapping("/find_all_by_pageable")

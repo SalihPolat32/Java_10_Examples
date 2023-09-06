@@ -121,7 +121,7 @@ public class UserService extends ServiceManager<UserProfile, String> {
             authManager.updateAuth(AuthUpdateRequestDto.builder()
                     .email(dto.getEmail()).username(dto.getUsername())
                     .id(authId.get())
-                    .build()
+                    .build(), "Bearer " + dto.getToken()
             );
         }
         // userProfile = Optional.of( IUserMapper.INSTANCE.toUserProfile(dto));
@@ -238,9 +238,11 @@ public class UserService extends ServiceManager<UserProfile, String> {
         return userRepository.findByStatus(myStatus);
     }
 
-    public String deleteUserProfile(Long id) {
+    public String deleteUserProfile(String token) {
 
-        Optional<UserProfile> userProfile = userRepository.findByAuthId(id);
+        Optional<Long> authId = jwtTokenManager.getAuthIdFromToken(token.substring(7));
+
+        Optional<UserProfile> userProfile = userRepository.findByAuthId(authId.get());
 
         if (userProfile.isEmpty()) {
             throw new UserManagerException(ErrorType.USER_NOT_FOUND);

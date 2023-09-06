@@ -13,6 +13,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -68,12 +69,13 @@ public class AuthController {
     }
 
     @PutMapping(UPDATE)
-    public ResponseEntity<String> updateAuth(@RequestBody AuthUpdateRequestDto dto) {
+    public ResponseEntity<String> updateAuth(@RequestBody AuthUpdateRequestDto dto, @RequestHeader("Authorization") String token) {
 
         return ResponseEntity.ok(authService.updateAuth(dto));
     }
 
     @GetMapping(FIND_ALL)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<Auth>> findAll() {
 
         try {
@@ -91,6 +93,7 @@ public class AuthController {
 
     @GetMapping("/redis")
     @Cacheable(value = "redisexample")
+    @PreAuthorize("hasAuthority('USER')")
     public String redisExample(String value) {
 
         try {
@@ -130,8 +133,8 @@ public class AuthController {
     }
 
     @DeleteMapping(DELETE_BY_ID)
-    public ResponseEntity<String> deleteById(@RequestParam Long id) {
+    public ResponseEntity<String> deleteById(@RequestParam String token) {
 
-        return ResponseEntity.ok(authService.deleteAuth(id));
+        return ResponseEntity.ok(authService.deleteAuth(token));
     }
 }
