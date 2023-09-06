@@ -14,7 +14,9 @@ import java.time.LocalDate;
 @Builder
 public class UserProfileFindAllResponseDto {
 
-    private Long userProfileId;
+    private String id;
+
+    // private Long userProfileId;
 
     private Long authId;
 
