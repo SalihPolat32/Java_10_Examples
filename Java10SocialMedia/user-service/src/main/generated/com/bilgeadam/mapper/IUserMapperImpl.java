@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-04T13:37:59+0300",
+    date = "2023-09-08T09:50:29+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.8.1 (Amazon.com Inc.)"
 )
 @Component
@@ -75,9 +75,7 @@ public class IUserMapperImpl implements IUserMapper {
 
         UserProfileFindAllResponseDto.UserProfileFindAllResponseDtoBuilder userProfileFindAllResponseDto = UserProfileFindAllResponseDto.builder();
 
-        if ( userProfile.getId() != null ) {
-            userProfileFindAllResponseDto.userProfileId( Long.parseLong( userProfile.getId() ) );
-        }
+        userProfileFindAllResponseDto.id( userProfile.getId() );
         userProfileFindAllResponseDto.authId( userProfile.getAuthId() );
         userProfileFindAllResponseDto.username( userProfile.getUsername() );
         userProfileFindAllResponseDto.email( userProfile.getEmail() );

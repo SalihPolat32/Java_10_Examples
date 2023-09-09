@@ -30,9 +30,9 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String authorizationHeader = request.getHeader("Authorization");
 
-        System.out.println("authHeader===>" + authorizationHeader);
+        System.out.println("authHeader ===> " + authorizationHeader);
 
-        System.out.println("auth==>" + SecurityContextHolder.getContext().getAuthentication());
+        System.out.println("auth ==> " + SecurityContextHolder.getContext().getAuthentication());
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")
             //   && SecurityContextHolder.getContext().getAuthentication()==null
@@ -51,7 +51,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             System.out.println("getcontext ==> " + SecurityContextHolder.getContext());
         }
 
-        // System.out.println("auth==>"+SecurityContextHolder.getContext().getAuthentication());
+        // System.out.println("auth ==> " + SecurityContextHolder.getContext().getAuthentication());
 
         filterChain.doFilter(request, response);
     }
