@@ -42,3 +42,6 @@ rabbitmq:
 redis:
   host: localhost
   port: 6379
+
+feign:
+  user: http://localhost:7072/api/v1/user
