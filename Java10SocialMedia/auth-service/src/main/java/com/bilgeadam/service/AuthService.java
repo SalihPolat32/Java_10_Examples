@@ -61,6 +61,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
         this.authRepository = authRepository;
 
+
         this.jwtTokenManager = jwtTokenManager;
 
         this.userManager = userManager;
@@ -128,6 +129,7 @@ public class AuthService extends ServiceManager<Auth, Long> {
         // Mail Atma İşlemi İçin Mail Servis İle Haberleşilecek
 
         MailModel mailModel = IAuthMapper.INSTANCE.toMailModel(auth);
+
         mailModel.setToken(token);
 
 //        mailProducer.sendMail(MailModel
@@ -206,7 +208,6 @@ public class AuthService extends ServiceManager<Auth, Long> {
 
     @Transactional
     public String deleteAuth(String token) {
-
         Optional<Long> id = jwtTokenManager.getIdFromToken(token);
 
         if (id.isEmpty()) {

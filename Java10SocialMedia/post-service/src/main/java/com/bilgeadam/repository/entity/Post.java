@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @SuperBuilder
 @Document
-public class Post extends BaseEntity {
+public class Post extends BaseEntity{
 
     @Id
     private String id;

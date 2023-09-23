@@ -15,10 +15,10 @@ public class RabbitMqConfig {
     private String exchange;
 
     @Value("${rabbitmq.register-binding-key}")
-    private String registerBindingKey;
+    private String registerBindingKey;  // unique --> Her bir mesaj isteğine göre özel üretilmelidir.
 
     @Value("${rabbitmq.register-queue}")
-    private String registerQueueName;
+    private String registerQueueName;  // unique --> Her bir mesaj isteğine göre özel üretilmelidir.
 
     @Value("${rabbitmq.activation-binding-key}")
     private String activationBindingKey;

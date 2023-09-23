@@ -18,6 +18,8 @@ import com.bilgeadam.utility.ServiceManager;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,6 +102,10 @@ public class UserService extends ServiceManager<UserProfile, String> {
 
     @Transactional
     public String updateUserProfile(UserProfileUpdateRequestDto dto) {
+
+        Authentication authorization = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println("Authorization: " + authorization.getPrincipal());
 
         Optional<Long> authId = jwtTokenManager.getAuthIdFromToken(dto.getToken());
 
@@ -281,5 +287,16 @@ public class UserService extends ServiceManager<UserProfile, String> {
         Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
 
         return userRepository.findAll(pageable);
+    }
+
+    public Optional<UserProfile> findByUserWithAuthId(Long authId){
+
+        Optional<UserProfile> userProfile = userRepository.findByAuthId(authId);
+
+        if (userProfile.isEmpty()){
+            throw new UserManagerException(ErrorType.USER_NOT_FOUND);
+        }
+
+        return userProfile;
     }
 }
