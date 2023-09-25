@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.bilgeadam.constant.EndPoints.*;
+import static com.bilgeadam.constant.EndPoints.POST;
 
 @RestController
 @RequestMapping(POST)
@@ -20,7 +20,7 @@ public class PostController {
     private final JwtTokenManager jwtTokenManager;
 
     @PostMapping("/create-post/{token}")
-    public ResponseEntity<Post> createPost(@PathVariable String token, @RequestBody CreateNewPostRequestDto dto){
+    public ResponseEntity<Post> createPost(@PathVariable String token, @RequestBody CreateNewPostRequestDto dto) {
 
         return ResponseEntity.ok(postService.createPost(token, dto));
     }

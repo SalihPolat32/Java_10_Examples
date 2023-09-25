@@ -7,7 +7,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.bilgeadam.exception.AuthManagerException;
 import com.bilgeadam.exception.ErrorType;
 import com.bilgeadam.repository.enums.ERole;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

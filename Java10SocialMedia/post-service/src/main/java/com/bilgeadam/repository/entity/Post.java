@@ -14,14 +14,14 @@ import java.util.List;
 @Data
 @SuperBuilder
 @Document
-public class Post extends BaseEntity{
+public class Post extends BaseEntity {
 
     @Id
     private String id;
 
     private String userId;
 
-    private String username;
+    private String username; // java10 -->javaboost10
 
     private String userAvatar;
 

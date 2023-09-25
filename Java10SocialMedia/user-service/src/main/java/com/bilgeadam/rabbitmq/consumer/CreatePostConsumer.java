@@ -1,7 +1,6 @@
 package com.bilgeadam.rabbitmq.consumer;
 
 import com.bilgeadam.dto.response.UserProfileResponseDto;
-import com.bilgeadam.mapper.IUserMapper;
 import com.bilgeadam.rabbitmq.model.CreatePostModel;
 import com.bilgeadam.repository.entity.UserProfile;
 import com.bilgeadam.service.UserService;
@@ -20,7 +19,7 @@ public class CreatePostConsumer {
     private final UserService userService;
 
     @RabbitListener(queues = "post-queue")
-    public Object createPost(CreatePostModel createPostModel){ // authId
+    public Object createPost(CreatePostModel createPostModel) { // authId
 
         Optional<UserProfile> userProfile = userService.findByUserWithAuthId(createPostModel.getAuthId());
 
@@ -29,7 +28,7 @@ public class CreatePostConsumer {
                 .userAvatar(userProfile.get().getAvatar())
                 .username(userProfile.get().getUsername())
                 .build();
-        
+
         return userProfileResponseDto;
     }
 }
