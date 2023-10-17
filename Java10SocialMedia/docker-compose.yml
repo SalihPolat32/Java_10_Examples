@@ -75,6 +75,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
-      - "27010:27017"
+      - "27017:27017" # "27010:27017" --> User için gerekli port
     networks:
       - java_10_network

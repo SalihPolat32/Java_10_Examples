@@ -5,26 +5,26 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: socialmedia
-    password: root
+    username: java10 # socialmedia
+    password: 123 # root
   zipkin:
     enabled: true
     base-url: http://localhost:9411
     service:
       name: user-service
   data:
+#    mongodb:
+#      host: localhost
+#      port: 27010
+#      username: java10user
+#      password: root
+#      database: userDb
     mongodb:
       host: localhost
       port: 27010
-      username: java10user
+      username: JavaUser
       password: root
-      database: userDb
-#    mongodb:
-#      host: localhost
-#      port: 27017
-#      username: JavaUser
-#      password: root
-#      database: socialmedia
+      database: socialmedia
 
 jwt:
   secretKey: ${java10secretkey}

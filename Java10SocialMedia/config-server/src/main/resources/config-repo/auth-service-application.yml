@@ -9,8 +9,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: socialmedia
-    password: root
+    username: java10 # socialmedia
+    password: 123 # root
   zipkin:
     enabled: true
     base-url: http://localhost:9411
